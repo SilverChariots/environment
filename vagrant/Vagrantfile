@@ -9,11 +9,15 @@ Vagrant::Config.run do |config|
   # ホストオンリーネットワークで以下のIPアドレスを割り当てる
   config.vm.network "192.168.65.1"
 
+  # port forward for Cassandra
+  config.vm.forward_port 3000, 3000
+
   # Chef-soloの設定
   config.vm.provision :chef_solo do |chef|
     # 今回は標準のレシピを使う
     chef.recipe_url = "http://files.vagrantup.com/getting_started/cookbooks.tar.gz"
     chef.add_recipe "vagrant_main"
+    
   end
 
   # 仮想マシン自体の設定
