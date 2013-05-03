@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+Vagrant::Config.run do |config|
+  # 元となるboxの名前を指定
+  config.vm.box = "CentOS"
+
+  # 仮想マシンをGUIで起動する
+  config.vm.boot_mode = :gui
+
+  # ホストオンリーネットワークで以下のIPアドレスを割り当てる
+  config.vm.network "192.168.65.1"
+
+  # Chef-soloの設定
+  config.vm.provision :chef_solo do |chef|
+    # 今回は標準のレシピを使う
+    chef.recipe_url = "http://files.vagrantup.com/getting_started/cookbooks.tar.gz"
+    chef.add_recipe "vagrant_main"
+  end
+
+  # 仮想マシン自体の設定
+  config.vm.customize do |vm|
+    # メモリを1Gにする。
+    vm.memory_size = 1024 
+    # 仮想マシンの名前(Virtualboxのメニューに出る)
+    vm.name = "vagrant_CentOS" 
+  end
+
+end
